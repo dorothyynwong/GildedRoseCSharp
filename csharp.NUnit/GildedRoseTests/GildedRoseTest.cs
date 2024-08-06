@@ -3,49 +3,11 @@ using GildedRoseKata;
 using NUnit.Framework;
 
 namespace GildedRoseTests;
-//     it('Brie increase in value by 2 if quality<50 & sellin < 0', () => {
-//       const gildedRose = new GildedRose([new Item('Aged Brie', -1, 40)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].quality).to.equal(42)
-//     });
-
-//     it('Backstage passes to a TAFKAL80ETC concert Quality drops to 0 once sellin < 0', () => {
-//       const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', -1, 40)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].quality).to.equal(0)
-//     });
-
-//     it('quality can never exceed 50 (for non Sulfuras items)', () =>{
-//       const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 50)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].quality).to.equal(50)
-//     })
-
-//     it('quality of Sulfuras is always 80', () =>{
-//       const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 10, 80)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].quality).to.equal(80)
-//     })
-
-
-//     it('Backstages passes increase in value by 1 if quality<50 & sellin > 10', () => {
-//       const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 11, 40)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].quality).to.equal(41)
-//     });
-
-//     it('SellIn of Sulfuras doesnt change', () => {
-//       const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', -5, 80)])
-//       const items = gildedRose.updateQuality()
-//       expect(items[0].sellIn).to.equal(-5)
-//     });
-
 //     it('Conjured Mana Cake quality decreases by 2 each day', () => {
 //       const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 10, 30)])
 //       const items = gildedRose.updateQuality()
 //       expect(items[0].quality).to.equal(28)
 //     }); 
-
 //     it('Conjured Mana Cake quality decreases by 4 each day after sellIn <0', () => {
 //       const gildedRose = new GildedRose([new Item('Conjured Mana Cake', -1, 30)])
 //       const items = gildedRose.updateQuality()
@@ -184,6 +146,81 @@ public class GildedRoseTest
         app.UpdateQuality();
         Assert.That(items[0].Quality, Is.EqualTo(quality));
     }
+    [Test]
+    public void AgedBrie_Quality_Decreases_2_While_Quality_Less_Than_50_SellIn_Less_Than_0() {
+        var itemName = "Aged Bries";
+        var itemSellIn = -1;
+        var quality = 40;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].Quality, Is.EqualTo(quality-2));
+    }
+    [Test]
+    public void Backstage_Quality_Drops_To_0_SellIn_Less_Than_0() {
+        var itemName = "Backstage passes to a TAFKAL80ETC concert";
+        var itemSellIn = -1;
+        var quality = 40;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].Quality, Is.EqualTo(0));
+    }
+    [Test]
+    public void Non_Sulfuras_Quality_Never_Exceed_50() {
+        var itemName = "Backstage passes to a TAFKAL80ETC concert";
+        var itemSellIn = 10;
+        var quality = 50;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].Quality, Is.EqualTo(quality));
+    }
+    [Test]
+    public void Sulfuras_Quality_Always_80() {
+        var itemName = "Sulfuras, Hand of Ragnaros";
+        var itemSellIn = 10;
+        var quality = 80;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].Quality, Is.EqualTo(quality));
+    }
+    [Test]
+    public void Backstages_Quality_Increase_1_If_Quality_Less_Than_50_SellIn_More_Than_10() {
+        var itemName = "Backstage passes to a TAFKAL80ETC concert";
+        var itemSellIn = 11;
+        var quality = 40;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].Quality, Is.EqualTo(quality+1));
+    }
+    [Test]
+    public void Sulfuras_SellIn_Does_Not_Change() {
+        var itemName = "Sulfuras, Hand of Ragnaros";
+        var itemSellIn = -5;
+        var quality = 80;
+        var items = new List<Item> { 
+            new Item { Name = itemName, SellIn = itemSellIn, Quality = quality },
+        };
+        var app = new GildedRose(items);
+        app.UpdateQuality();
+        Assert.That(items[0].SellIn, Is.EqualTo(itemSellIn));
+    }
+    
+
+
     [Test]
     public void GenericItemQualityNotReachSellIn() //not Aged Brie, not Backstage, Not Sulfuras
     {
