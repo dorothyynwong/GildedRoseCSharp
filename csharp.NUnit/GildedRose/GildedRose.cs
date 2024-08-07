@@ -19,10 +19,10 @@ public class GildedRose
             case <= 0:
                 quality = 0;
                 break;
-            case < 5:
+            case < 6:
                 quality = Math.Min(50,quality+3);
                 break;
-            case < 10:
+            case < 11:
                 quality = Math.Min(50,quality+2);
                 break;
             default:
@@ -47,15 +47,11 @@ public class GildedRose
                     }
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    // Items[i].SellIn--;
-                    // if (Items[i].Quality < 50) {
-                    //     Items[i].Quality = CalculateNewQualityFromSellIn(Items[i].SellIn, Items[i].Quality);
-                    // }
-                    if (Items[i].Quality < 50) Items[i].Quality = Items[i].Quality + 1;
-                    if (Items[i].SellIn < 11 && Items[i].Quality < 50) Items[i].Quality = Items[i].Quality + 1;
-                    if (Items[i].SellIn < 6 && Items[i].Quality < 50) Items[i].Quality = Items[i].Quality + 1;
+                    if (Items[i].Quality < 50) {
+                        Items[i].Quality = CalculateNewQualityFromSellIn(Items[i].SellIn, Items[i].Quality);
+                    }
                     Items[i].SellIn--;
-                    if (Items[i].SellIn < 0) Items[i].Quality = Items[i].Quality - Items[i].Quality;
+                    if (Items[i].SellIn < 0) Items[i].Quality = 0;
                     break;
                 case "Sulfuras, Hand of Ragnaros":
                     break;
