@@ -17,11 +17,12 @@ public class GildedRose
         {
             switch (Items[i].Name) {
                 case "Aged Brie":
-                    if (Items[i].Quality < 50) Items[i].Quality = Items[i].Quality + 1;
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                    if (Items[i].SellIn < 0 && Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
+                    Items[i].SellIn--;
+                    if (Items[i].Quality < 50) {
+                        if(Items[i].SellIn < 0)
+                            Items[i].Quality+=2;
+                        else
+                            Items[i].Quality++;
                     }
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
